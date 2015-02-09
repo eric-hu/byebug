@@ -23,20 +23,32 @@ module Byebug
     # Starts a remote byebug
     #
     def start_server(host = nil, port = PORT)
+      $stdout.puts "A" * 80
+      $stdout.puts "Thread defined?: #{defined?(@thread)}"
+      $stdout.puts "A" * 80
       return if defined?(@thread)
+      $stdout.puts "B" * 80
 
       handler.interface = nil
+      $stdout.puts "C" * 80
       start
+      $stdout.puts "D" * 80
 
       start_control(host, port == 0 ? 0 : port + 1)
+      $stdout.puts "E" * 80
 
       yield if block_given?
+      $stdout.puts "F" * 80
 
       mutex = Mutex.new
+      $stdout.puts "G" * 80
       proceed = ConditionVariable.new
+      $stdout.puts "H" * 80
 
       server = TCPServer.new(host, port)
+      $stdout.puts "I" * 80
       self.actual_port = server.addr[1]
+      $stdout.puts "J" * 80
       @thread = DebugThread.new do
         while (session = server.accept)
           handler.interface = RemoteInterface.new(session)

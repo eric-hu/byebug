@@ -19,13 +19,17 @@ module Byebug
       end
 
       def test_start_server_starts_only_one_thread
+        #Mutex.stubs(:new)
         Mutex.expects(:new).once
+        puts "*" * 80
+        puts Mutex.method(:new).source_location
 
         Byebug.start_server()
         Byebug.start_server()
       end
 
       def test_start_server_calls_a_block_passed_in
+        skip("foo")
         Mutex.stubs(:new)
         yielded = false
         block = lambda { yielded = true }
